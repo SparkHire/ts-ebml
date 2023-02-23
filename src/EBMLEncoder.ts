@@ -2,7 +2,7 @@ import * as EBML from "./EBML";
 import * as tools from "./tools";
 import {Buffer, readVint, ebmlBlock} from "./tools";
 import {Int64BE} from "int64-buffer";
-import schema = require("matroska/lib/schema");
+import schema = require("@spark-hire/matroska/lib/schema");
 const {byEbmlID}: {byEbmlID: { [key: number]: EBML.Schema } } = schema;
 
 
@@ -132,11 +132,11 @@ export default class EBMLEncoder {
     }, []);
     const childTagDataBuffer = tools.concat(childTagDataBuffers);
     if(tag.elm.type === "m"){
-      tag.data = tools.encodeTag(tag.tagId, childTagDataBuffer, tag.elm.unknownSize);  
+      tag.data = tools.encodeTag(tag.tagId, childTagDataBuffer, tag.elm.unknownSize);
     }else{
       tag.data = tools.encodeTag(tag.tagId, childTagDataBuffer);
     }
-  
+
     if (this._stack.length < 1) {
       this._buffers = this._buffers.concat(tag.data);
     }

@@ -2,7 +2,7 @@ import {Buffer, readVint, ebmlBlock, convertEBMLDateToJSDate} from "./tools";
 import {Int64BE} from "int64-buffer";
 import * as EBML from "./EBML";
 import * as tools from "./tools";
-import schema = require("matroska/lib/schema");
+import schema = require("@spark-hire/matroska/lib/schema");
 const {byEbmlID}: {byEbmlID: { [key: number]: EBML.Schema } } = schema;
 
 // https://www.matroska.org/technical/specs/index.html
@@ -89,7 +89,7 @@ export default class EBMLDecoder {
     const tagNum = buf.reduce((o, v, i, arr)=> o + v * Math.pow(16, 2*(arr.length-1-i)), 0);
 
     const schema = this.getSchemaInfo(tagNum);
-    
+
     const tagObj: EBML.EBMLElementDetail = <any>{
         EBML_ID: tagNum.toString(16),
         schema,
@@ -116,7 +116,7 @@ export default class EBMLDecoder {
 
     // 読み込み状態変更
     this._state = State.STATE_SIZE;
-    
+
     return true;
   }
 
@@ -153,7 +153,7 @@ export default class EBMLDecoder {
     } else {
       tagObj.dataEnd = tagObj.sizeEnd + size.value;
     }
-    
+
     // <<<<<<<<
 
     // ポインタを進める
@@ -171,7 +171,7 @@ export default class EBMLDecoder {
   private readContent(): boolean {
 
     const tagObj = this._tag_stack[this._tag_stack.length - 1];
-    
+
     // master element は子要素を持つので生データはない
     if (tagObj.type === 'm') {
       // console.log('content should be tags');
@@ -193,7 +193,7 @@ export default class EBMLDecoder {
 
     // タグの中身の生データ
     const data = this._buffer.slice(this._cursor, this._cursor + tagObj.dataSize);
-    
+
     // 読み終わったバッファを捨てて読み込んでいる部分のバッファのみ残す
     this._buffer = this._buffer.slice(this._cursor + tagObj.dataSize);
 
@@ -219,7 +219,7 @@ export default class EBMLDecoder {
         // Binary - not interpreted by the parser
       case "d": tagObj.value = convertEBMLDateToJSDate(new Int64BE(data).toNumber()); break;
         // nano second; Date.UTC(2001,1,1,0,0,0,0) === 980985600000
-        // Date - signed 8 octets integer in nanoseconds with 0 indicating 
+        // Date - signed 8 octets integer in nanoseconds with 0 indicating
         // the precise beginning of the millennium (at 2001-01-01T00:00:00,000000000 UTC)
     }
     if(tagObj.value === null){
