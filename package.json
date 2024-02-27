@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/legokichi/ts-ebml#readme",
   "dependencies": {
-    "@spark-hire/matroska": "2.3.0",
+    "@spark-hire/matroska": "^2.4.0",
     "buffer": "5.6.0",
     "commander": "^2.11.0",
     "ebml": "2.2.4",
