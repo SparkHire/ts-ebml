@@ -1,6 +1,6 @@
 {
   "name": "@spark-hire/ts-ebml",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "ebml decoder and encoder",
   "scripts": {
     "setup": "npm install -g http-server;",
